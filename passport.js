@@ -1,7 +1,7 @@
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const jwtStrategy = require("passport-jwt").Strategy;
-const User = require("./models/user");
+const User = require("./models/User");
 
 // development env vars
 require("dotenv").config();
@@ -13,7 +13,26 @@ const cookieExtractor = (req) => {
 };
 
 // jwt strategy - gets run ever time the passport "jwt" argument is set on passports authenticate param on request handler.
+
 passport.use(
+  "admin-rule",
+  new jwtStrategy(
+    {
+      jwtFromRequest: cookieExtractor,
+      secretOrKey: process.env.JWT_SECRET,
+    },
+    (payload, done) => {
+      User.findById({ _id: payload.sub }, (err, user) => {
+        if (err) done(err);
+        if (user && user.role === "admin") return done(null, user);
+        return done(null, false);
+      });
+    }
+  )
+);
+
+passport.use(
+  "user-rule",
   new jwtStrategy(
     {
       jwtFromRequest: cookieExtractor,

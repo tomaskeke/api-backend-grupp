@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const passport = require("passport");
 const passportConfig = require("../passport");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const User = require("../models/User");
 
 //development env vars
 require("dotenv").config();
@@ -12,7 +12,7 @@ require("dotenv").config();
 const signToken = (userId) => {
   return jwt.sign(
     {
-      iss: "Tomas",
+      iss: "projektuppgift",
       sub: userId,
     },
     process.env.JWT_SECRET,
@@ -23,7 +23,7 @@ const signToken = (userId) => {
 };
 
 userRouter.post("/register", (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, role } = req.body;
   User.findOne({ username }, (err, user) => {
     if (err) {
       res
@@ -35,7 +35,7 @@ userRouter.post("/register", (req, res) => {
         .status(400)
         .json({ msg: { msgBody: "Username already taken", msgError: true } });
     } else {
-      const newUser = new User({ username, password });
+      const newUser = new User({ username, password, role });
       newUser.save((err) => {
         if (err) {
           res
@@ -56,12 +56,12 @@ userRouter.post(
   passport.authenticate("local", { session: false }),
   (req, res) => {
     if (req.isAuthenticated()) {
-      const { _id, username } = req.user;
+      const { _id, username, role } = req.user;
       const token = signToken(_id);
       res.cookie("access-token", token, { httpOnly: true, sameSite: true });
       res.status(200).json({
         isAuthenticated: true,
-        user: { _id, username },
+        user: { _id, username, role },
         msg: { msgBody: "Successfully logged in", msgError: false },
       });
     }
@@ -70,19 +70,19 @@ userRouter.post(
 
 userRouter.get(
   "/auth",
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate("user-rule", { session: false }),
   (req, res) => {
-    const { _id, username } = req.user;
+    const { _id, username, role } = req.user;
     res.status(200).json({
       isAuthenticated: true,
-      user: { _id, username },
+      user: { _id, username, role },
     });
   }
 );
 
 userRouter.get(
   "/logout",
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate("user-rule", { session: false }),
   (req, res) => {
     res.clearCookie("access-token");
     res
