@@ -23,7 +23,7 @@ const signToken = (userId) => {
 };
 
 userRouter.post("/register", (req, res) => {
-  const { username, password, role } = req.body;
+  const { username, password } = req.body;
   User.findOne({ username }, (err, user) => {
     if (err) {
       res
