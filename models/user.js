@@ -10,6 +10,30 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  firstname: {
+    type: String,
+  },
+  lastname: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  street: {
+    type: String,
+  },
+  zipCode: {
+    type: String,
+  },
+  town: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
 });
 
 // Middleware that runs before every mongodb save call via mongoose.
