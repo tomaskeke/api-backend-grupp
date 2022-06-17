@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const passport = require("passport");
 const passportConfig = require("../passport");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const User = require("../models/User");
 
 //development env vars
 require("dotenv").config();
@@ -23,7 +23,7 @@ const signToken = (userId) => {
 };
 
 userRouter.post("/register", (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, role } = req.body;
   User.findOne({ username }, (err, user) => {
     if (err) {
       res
