@@ -9,7 +9,12 @@ const UserSchema = mongoose.Schema({
   password: {
     type: String,
     required: true,
-  }
+  },
+  role: {
+    type: String,
+    enum: ["admin", "user"],
+    required: true,
+  },
 });
 
 // Middleware that runs before every mongodb save call via mongoose.
