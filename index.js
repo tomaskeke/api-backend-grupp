@@ -4,8 +4,9 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 
-// import userRouter
+// import routers
 const userRouter = require("./api/user");
+const productRouter = require("./api/product");
 
 // Development env vars
 require("dotenv").config();
@@ -15,10 +16,14 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
 app.use("/api/user", userRouter);
+app.use("/api/product", productRouter);
 
 mongoose.connect(
   process.env.MONGODB_URI,
-  { useNewUrlParser: true, useUnifiedTopology: true, autoIndex: true },
+  { useNewUrlParser: true, 
+    useUnifiedTopology: true, 
+    autoIndex: true 
+  },
   () => console.log("Connected to database successfully")
 );
 
