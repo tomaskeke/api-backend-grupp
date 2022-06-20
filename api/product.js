@@ -3,6 +3,8 @@ const productRouter = express.Router();
 const passport = require("passport");
 const passportConfig = require("../passport");
 const Product = require("../models/Product");
+const { model } = require("mongoose");
+
 
 productRouter.post(
   "/newproduct",
@@ -87,5 +89,4 @@ productRouter.delete(
     });
   }
 );
-
-module.exports = productRouter;
+module.exports = productRouter
