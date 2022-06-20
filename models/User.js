@@ -10,10 +10,29 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  role: {
+  firstname: {
     type: String,
-    enum: ["admin", "user"],
-    required: true,
+  },
+  lastname: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  street: {
+    type: String,
+  },
+  zipCode: {
+    type: String,
+  },
+  town: {
+    type: String,
+  },
+  country: {
+    type: String,
   },
 });
 

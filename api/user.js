@@ -91,4 +91,40 @@ userRouter.get(
   }
 );
 
+userRouter.put(
+  "/update/:id",
+  passport.authenticate("user-rule", { session: false }),
+  (req, res) => {
+    const {
+      firstname,
+      lastname,
+      email,
+      phone,
+      street,
+      zipCode,
+      town,
+      country,
+    } = req.body;
+
+    User.findByIdAndUpdate(
+      { _id: req.params.id },
+      { firstname, lastname, email, phone, street, zipCode, town, country },
+      (err) => {
+        if (err) {
+          res.status(500).json({
+            msg: {
+              msgBody: "An error occurred updating your kebabrull account",
+              msgError: true,
+            },
+          });
+        } else {
+          res.status(200).json({
+            msg: { msgBody: "you successfully updated your account" },
+          });
+        }
+      }
+    );
+  }
+);
+
 module.exports = userRouter;
