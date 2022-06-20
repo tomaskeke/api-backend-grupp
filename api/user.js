@@ -127,4 +127,34 @@ userRouter.put(
   }
 );
 
+userRouter.get("/getusers", (req, res) => {
+  User.find({}, (err, documents) => {
+    if (err) {
+      res.status(500).json({
+        msg: {
+          msgBody: "error occured while fetching posts",
+          msgError: true,
+        },
+      });
+    } else {
+      res.status(200).json({ posts: documents });
+    }
+  });
+});
+
+userRouter.get("/getuser/:id", (req, res) => {
+  User.findById({ _id: req.params.id }, (err, documents) => {
+    if (err) {
+      res.status(500).json({
+        msg: {
+          msgBody: "error occured while fetching posts",
+          msgError: true,
+        },
+      });
+    } else {
+      res.status(200).json({ posts: documents });
+    }
+  });
+});
+
 module.exports = userRouter;
