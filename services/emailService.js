@@ -5,7 +5,7 @@ require("dotenv").config;
 const OrderConfirmed = (orderInfo) => {
   sgMail.setApiKey(process.env.SENDGRID_KEY);
   const msg = {
-    to: `${orderInfo.eMail}`, // Change to your recipient
+    to: `${orderInfo.email}`, // Change to your recipient
     from: "tomas.ek@utb.ecutbildning.se", // Change to your verified sender
     subject: "Order confirmed",
     text: "Order is confirmed and waiting to be handled",
