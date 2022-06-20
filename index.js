@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 // import routers
 const userRouter = require("./api/user");
 const productRouter = require("./api/product");
+const orderRouter = require("./api/order");
 
 // Development env vars
 require("dotenv").config();
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
+app.use("/api/order",orderRouter);
 
 mongoose.connect(
   process.env.MONGODB_URI,
